@@ -1,4 +1,3 @@
-// LOGIN POPUP
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -8,6 +7,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 export default function LoginModal({ show, onClose, setAuthenticated, setUserProfile }) {
     const [message, setMessage] = useState(null);
     const [remember, setRemember] = useState(false);
+
     useEffect(() => {
         if (show) document.body.style.overflow = 'hidden';
         else document.body.style.overflow = 'auto';
@@ -32,26 +32,25 @@ export default function LoginModal({ show, onClose, setAuthenticated, setUserPro
                         const body = new URLSearchParams();
                         body.append('email', e.target.email.value);
                         body.append('password', e.target.password.value);
+
                         try {
                             const resp = await fetch(`${API_BASE}/users/login`, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                                 body: body.toString(),
                             });
+
                             if (!resp.ok) throw new Error('Login failed');
                             const data = await resp.json();
+
                             setAuthenticated(true);
- i6jjfw-codex/implement-registration-and-login-features
                             setUserProfile({ fullName: data.name, _id: data.id });
+
                             if (remember) {
                                 localStorage.setItem('token', data.token);
                                 localStorage.setItem('userId', data.id);
-
-                            setUserProfile({ fullName: data.token, _id: 'dummy-id' });
-                            if (remember) {
-                                localStorage.setItem('token', data.token);
- main
                             }
+
                             setMessage(null);
                             onClose();
                         } catch (err) {
@@ -64,7 +63,8 @@ export default function LoginModal({ show, onClose, setAuthenticated, setUserPro
                         <input
                             name="email"
                             type="email"
-                            className="w-full border px-2 py-1 rounded text-white"
+                            required
+                            className="w-full border px-2 py-1 rounded text-white bg-transparent"
                         />
                     </div>
                     <div>
@@ -72,7 +72,8 @@ export default function LoginModal({ show, onClose, setAuthenticated, setUserPro
                         <input
                             name="password"
                             type="password"
-                            className="w-full border px-2 py-1 rounded text-white"
+                            required
+                            className="w-full border px-2 py-1 rounded text-white bg-transparent"
                         />
                     </div>
                     <label className="text-white flex items-center gap-2">
@@ -90,16 +91,15 @@ export default function LoginModal({ show, onClose, setAuthenticated, setUserPro
                     >
                         Submit
                     </button>
-                    {message && (
-                        <p className="text-white text-sm">{message}</p>
-                    )}
+                    {message && <p className="text-white text-sm">{message}</p>}
                 </form>
                 <p className="text-white text-sm mt-2">
-                    Don't have an account? <a href="#" onClick={onClose}>Sign up</a>
+                    Don't have an account?{' '}
+                    <a href="#" onClick={onClose} className="underline text-blue-400">Sign up</a>
                 </p>
                 <button
                     onClick={onClose}
-                    className="absolute top-2 right-2 text-gray-500 hover:text-black"
+                    className="absolute top-2 right-2 text-gray-500 hover:text-white"
                 >
                     ✕
                 </button>
