@@ -7,7 +7,7 @@ export default function ComingSoon() {
 
     // fetch books, currently by id
     useEffect(() => {
-        fetch("http://localhost:8080/books")
+        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/books`)
             .then((res) => res.json())
             .then((data) => {
                 const comingSoon = data.filter((book) =>
@@ -50,7 +50,7 @@ export default function ComingSoon() {
                                 </h3>
                                 <p className="text-gray-300 text-sm">{book.author}</p>
                                 <p className="text-red-300 text-sm mt-2">
-                                    ${book.price?.toFixed(2)}
+                                    ${book.buyingPrice?.toFixed(2)}
                                 </p>
                             </div>
                         </div>

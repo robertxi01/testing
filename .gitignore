@@ -1,0 +1,18 @@
+# Maven
+backend/target/
+
+# Node
+frontend/node_modules/
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store
+
+# Backup files
+*~
+
+# env files
+frontend/.env.local

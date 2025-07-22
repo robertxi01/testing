@@ -33,6 +33,7 @@ public class UserController {
         if (svc.findByEmail(user.getEmail()).isPresent()) {
             throw new RuntimeException("Email already registered");
         }
+        user.setStatus("ACTIVE");
         return svc.register(user);
     }
 
@@ -60,5 +61,16 @@ public class UserController {
     @PostMapping("/logout")
     public void logout() {
         //stateless stub; in a real system you'd invalidate the session/JWT
+    }
+
+    /**
+     * Update user profile.
+     * @param id user id
+     * @param user updated fields
+     */
+    @PutMapping("/{id}")
+    public void update(@PathVariable Long id, @RequestBody User user) throws SQLException {
+        user.setId(id);
+        svc.update(user);
     }
 }
