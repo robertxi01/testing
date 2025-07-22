@@ -14,7 +14,7 @@ export default function Home() {
     const router = useRouter();
 
     useEffect(() => {
-        fetch('http://localhost:8080/books')
+        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/books`)
             .then(response => response.json())
             .then(data => setTopSellers(data))
             .catch(error => console.error('Error fetching books:', error));
