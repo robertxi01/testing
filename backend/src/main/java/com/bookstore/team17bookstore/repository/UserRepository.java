@@ -13,10 +13,17 @@ public class UserRepository {
     private final DataSource dataSource;
 
     private static final String INSERT =
+ i6jjfw-codex/implement-registration-and-login-features
         "INSERT INTO users (name, email, phone, password, promo, status, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE =
         "UPDATE users SET name=?, phone=?, password=?, promo=?, status=?, address=? WHERE id=?";
+
+        "INSERT INTO users (name, email, phone, password, promo, status) VALUES (?, ?, ?, ?, ?, ?)";
+
+    private static final String UPDATE =
+        "UPDATE users SET name=?, phone=?, password=?, promo=?, status=? WHERE id=?";
+ main
 
     private static final String SELECT_BY_EMAIL =
         "SELECT * FROM users WHERE email = ?";
@@ -43,7 +50,10 @@ public class UserRepository {
             ps.setString(4, user.getPassword());
             ps.setBoolean(5, user.isPromo());
             ps.setString(6, user.getStatus());
+ i6jjfw-codex/implement-registration-and-login-features
             ps.setString(7, user.getAddress());
+
+ main
             ps.executeUpdate();
 
            try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -102,8 +112,12 @@ public class UserRepository {
             ps.setString(3, user.getPassword());
             ps.setBoolean(4, user.isPromo());
             ps.setString(5, user.getStatus());
+i6jjfw-codex/implement-registration-and-login-features
             ps.setString(6, user.getAddress());
             ps.setLong(7, user.getId());
+
+            ps.setLong(6, user.getId());
+main
             ps.executeUpdate();
         }
     }
@@ -123,7 +137,10 @@ public class UserRepository {
         u.setPassword(rs.getString("password"));
         u.setPromo(rs.getBoolean("promo"));
         u.setStatus(rs.getString("status"));
+ i6jjfw-codex/implement-registration-and-login-features
         u.setAddress(rs.getString("address"));
+
+main
         return u;
     }
 }

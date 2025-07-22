@@ -66,6 +66,7 @@ public class UserController {
     }
 
     /**
+i6jjfw-codex/implement-registration-and-login-features
      * Get user profile by id.
      */
     @GetMapping("/{id}")
@@ -82,6 +83,8 @@ public class UserController {
     }
 
     /**
+=======
+main
      * Update user profile.
      * @param id user id
      * @param user updated fields
