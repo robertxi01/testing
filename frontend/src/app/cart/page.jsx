@@ -23,12 +23,10 @@ export default function CartPage() {
 
     return (
         <>
-            return (
-            <>
-                {cartItems.length === 0 ? ( // for if nothing in cart
-                    <div style={pageStyle}>
-                        <div style={cardStyle}>
-                            <h1 style={titleStyle}>Your Cart is Empty</h1>
+            {cartItems.length === 0 ? ( // for if nothing in cart
+                <div style={pageStyle}>
+                    <div style={cardStyle}>
+                        <h1 style={titleStyle}>Your Cart is Empty</h1>
                             <p style={messageStyle}>
                                 Looks like you haven’t added any books yet. Start exploring to find your next favorite read!
                             </p>
@@ -100,8 +98,6 @@ export default function CartPage() {
                         />
                     </div>
                 )}
-            </>
-            );
         </>
     );
 }
