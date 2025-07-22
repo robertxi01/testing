@@ -19,7 +19,7 @@ export default function SearchPage() {
         setSearchTerm(term);
         setSearchType(type);
 
-        fetch('http://localhost:8080/books')
+        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/books`)
             .then((response) => response.json())
             .then((data) => {
                 let filtered = data;

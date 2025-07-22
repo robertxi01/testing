@@ -7,7 +7,7 @@ export default function TopSellers() {
     const [topSellers, setTopSellers] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/books")
+        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/books`)
             .then((res) => res.json())
             .then((data) => {
                 const topSellers = data.filter((book) => [6, 7, 8].includes(book.id));
@@ -50,7 +50,7 @@ export default function TopSellers() {
                                     </h3>
                                     <p className="text-gray-300 text-sm">{book.author}</p>
                                     <p className="text-red-300 text-sm mt-2">
-                                        ${book.price?.toFixed(2)}
+                                        ${book.buyingPrice?.toFixed(2)}
                                     </p>
                                 </div>
                             </div>

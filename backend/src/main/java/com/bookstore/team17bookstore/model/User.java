@@ -19,9 +19,13 @@ public class User {
     private String email;
     private String phone;
     private String password;
+    private boolean promo;
+
+    private String address;
 
     //@Enumerated(EnumType.STRING)
     //private UserStatus status;
+    private String status;
     
     //@OneToOne(optional = true, cascade = CascadeType.ALL)
     //private Address address;
@@ -53,4 +57,13 @@ public class User {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public boolean isPromo() { return promo; }
+    public void setPromo(boolean promo) { this.promo = promo; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 }

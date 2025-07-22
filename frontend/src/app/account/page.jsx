@@ -1,53 +1,60 @@
 // ACCOUNT PROFILE PAGE
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export default function Page() {
-    // dummy profile info
-    const [fullName, setFullName] = useState('Jen Chen');
-    const [email, setEmail] = useState('jdc0226@gmail.com');
-    const [confirmEmail, setConfirmEmail] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [profilePic, setProfilePic] = useState('https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg');
-
+    const [promo, setPromo] = useState(false);
     const [uploading, setUploading] = useState(false);
-
-    const [confirmEmailError, setConfirmEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
-
-    const [cardNumber, setCardNumber] = useState('');
     const [address, setAddress] = useState('');
 
-    // dummy displayed info (left card)
-    const [displayFullName, setDisplayFullName] = useState(fullName);
+    const [displayFullName, setDisplayFullName] = useState('');
+    const userId = typeof window !== 'undefined' ? localStorage.getItem('userId') : null;
 
-    const handleUpdate = (event) => {
+    useEffect(() => {
+        if (!userId) return;
+        fetch(`${API_BASE}/users/${userId}`)
+            .then((r) => r.json())
+            .then((data) => {
+                setFullName(data.name);
+                setEmail(data.email);
+                setPromo(data.promo);
+                setAddress(data.address || '');
+                setDisplayFullName(data.name);
+            });
+    }, [userId]);
+
+    const handleUpdate = async (event) => {
         event.preventDefault();
-
-        let hasError = false;
-
-        if (confirmEmail !== email) {
-            setConfirmEmailError(true);
-            hasError = true;
-        } else {
-            setConfirmEmailError(false);
-        }
 
         if (password.trim() === '') {
             setPasswordError(true);
-            hasError = true;
-        } else {
-            setPasswordError(false);
+            return;
         }
+        setPasswordError(false);
 
-        if (hasError) return;
-
-        // mimic successful update
+        const body = {
+            name: fullName,
+            phone: '',
+            password,
+            promo,
+            status: 'ACTIVE',
+            address,
+        };
+        await fetch(`${API_BASE}/users/${userId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
         setDisplayFullName(fullName);
-        alert('Profile updated (dummy save)!');
         setPassword('');
-        setConfirmEmail('');
     };
 
     const handleImageChange = (event) => {
@@ -123,20 +130,6 @@ export default function Page() {
                         style={inputStyle}
                     />
                     <input
-                        type="email"
-                        placeholder="Confirm Email"
-                        value={confirmEmail}
-                        onChange={(e) => setConfirmEmail(e.target.value)}
-                        className="text-black"
-                        style={{
-                            ...inputStyle,
-                            borderColor: confirmEmailError ? 'red' : inputStyle.borderColor,
-                        }}
-                    />
-                    {confirmEmailError && (
-                        <div style={errorTextStyle}>Emails must match</div>
-                    )}
-                    <input
                         type="password"
                         placeholder="Password"
                         value={password}
@@ -150,17 +143,14 @@ export default function Page() {
                     {passwordError && (
                         <div style={errorTextStyle}>Password required</div>
                     )}
-                    <input
-                        type="card info"
-                        placeholder="Card Info"
-                        value={cardNumber}
-                        onChange={(e) => setCardNumber(e.target.value)}
-                        className="text-black"
-                        style={{
-                            ...inputStyle,
-                            borderColor: passwordError ? 'red' : inputStyle.borderColor,
-                        }}
-                    />
+                    <label className="text-white flex gap-2 mt-2">
+                        <input
+                            type="checkbox"
+                            checked={promo}
+                            onChange={(e) => setPromo(e.target.checked)}
+                        />
+                        Receive promotions
+                    </label>
                     <input
                         type="address"
                         placeholder="Address"

@@ -51,18 +51,31 @@
 	  </dependency>
 
 	  <!-- Spring Boot Web -->
-	  <dependency>
+          <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-	  </dependency>
+          </dependency>
+
+          <!-- Password hashing -->
+          <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+          </dependency>
 
 	  <!-- Spring Boot Test -->
-	  <dependency>
+          <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-	  </dependency>
-	</dependencies>
+          </dependency>
+
+          <!-- H2 for tests -->
+          <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+          </dependency>
+        </dependencies>
 
 
 	<build>
