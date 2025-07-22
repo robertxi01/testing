@@ -2,6 +2,7 @@ package com.bookstore.team17bookstore.service;
 
 import com.bookstore.team17bookstore.model.User;
 import com.bookstore.team17bookstore.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -11,9 +12,10 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository repo;
-
-    public UserService(UserRepository repo) {
+    private final PasswordEncoder encoder;
+    public UserService(UserRepository repo, PasswordEncoder encoder) {
         this.repo = repo;
+        this.encoder = encoder;
     }
 
     /**
@@ -23,7 +25,10 @@ public class UserService {
      * @throws SQLException on error
      */
     public User register(User user) throws SQLException {
-        //TODO: Add email uniqueness check
+        if (findByEmail(user.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already registered");
+        }
+        user.setPassword(encoder.encode(user.getPassword()));
         return repo.save(user);
     }
 
@@ -67,7 +72,7 @@ public class UserService {
      */
     public boolean verifyCredentials(String email, String password) throws SQLException {
         Optional<User> userOpt = findByEmail(email);
-        return userOpt.map(user -> user.getPassword().equals(password))
+        return userOpt.map(user -> encoder.matches(password, user.getPassword()))
                       .orElse(false);
     }
 }
