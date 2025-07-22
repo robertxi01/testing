@@ -16,6 +16,17 @@ export default function Navbar() {
     {/* global thing for cart tracking */}
     const [cartItems, setCartItems] = useState([]);
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const id = localStorage.getItem('userId');
+        if (token && id) {
+            setAuthenticated(true);
+            fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${id}`)
+                .then((r) => r.json())
+                .then((data) => setUserProfile({ fullName: data.name, _id: id }));
+        }
+    }, []);
+
     // dropdown logic
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -90,6 +101,9 @@ export default function Navbar() {
                                         
                                         <button
                                             onClick={() => {
+                                                fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/logout`, { method: 'POST' });
+                                                localStorage.removeItem('token');
+                                                localStorage.removeItem('userId');
                                                 setAuthenticated(false);
                                                 setUserProfile(null);
                                                 setDropdownOpen(false);

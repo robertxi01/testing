@@ -20,6 +20,10 @@ public class User {
     private String phone;
     private String password;
     private boolean promo;
+ i6jjfw-codex/implement-registration-and-login-features
+
+    private String address;
+main
 
     //@Enumerated(EnumType.STRING)
     //private UserStatus status;
@@ -61,4 +65,9 @@ public class User {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+ i6jjfw-codex/implement-registration-and-login-features
+
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+ main
 }

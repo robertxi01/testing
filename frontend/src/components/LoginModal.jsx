@@ -41,9 +41,16 @@ export default function LoginModal({ show, onClose, setAuthenticated, setUserPro
                             if (!resp.ok) throw new Error('Login failed');
                             const data = await resp.json();
                             setAuthenticated(true);
+ i6jjfw-codex/implement-registration-and-login-features
+                            setUserProfile({ fullName: data.name, _id: data.id });
+                            if (remember) {
+                                localStorage.setItem('token', data.token);
+                                localStorage.setItem('userId', data.id);
+
                             setUserProfile({ fullName: data.token, _id: 'dummy-id' });
                             if (remember) {
                                 localStorage.setItem('token', data.token);
+ main
                             }
                             setMessage(null);
                             onClose();
