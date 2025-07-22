@@ -75,4 +75,16 @@ public class UserService {
         return userOpt.map(user -> encoder.matches(password, user.getPassword()))
                       .orElse(false);
     }
+
+    /**
+     * Updates an existing user's profile.
+     * @param user the user with new values (must have id set)
+     * @throws SQLException on error
+     */
+    public void update(User user) throws SQLException {
+        if (user.getPassword() != null) {
+            user.setPassword(encoder.encode(user.getPassword()));
+        }
+        repo.update(user);
+    }
 }

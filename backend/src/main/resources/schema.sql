@@ -4,7 +4,9 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(50),
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    promo BOOLEAN DEFAULT FALSE,
+    status VARCHAR(20)
 );
 
 CREATE TABLE IF NOT EXISTS books (

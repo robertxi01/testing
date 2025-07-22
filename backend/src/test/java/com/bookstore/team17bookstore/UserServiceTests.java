@@ -18,8 +18,21 @@ public class UserServiceTests {
     @Test
     void registerAndVerify() throws Exception {
         User u = new User("Test","test@example.com","","secret");
+        u.setStatus("ACTIVE");
         userService.register(u);
 
         assertThat(userService.verifyCredentials("test@example.com","secret")).isTrue();
+    }
+
+    @Test
+    void updateProfile() throws Exception {
+        User u = new User("T","u@example.com","","pass");
+        u.setStatus("ACTIVE");
+        userService.register(u);
+        Long id = userService.idByEmail("u@example.com");
+        u.setId(id);
+        u.setName("Updated");
+        userService.update(u);
+        assertThat(userService.findById(id).get().getName()).isEqualTo("Updated");
     }
 }
