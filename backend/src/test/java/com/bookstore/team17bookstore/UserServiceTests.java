@@ -18,11 +18,15 @@ public class UserServiceTests {
     @Test
     void registerAndVerify() throws Exception {
         User u = new User("Test","test@example.com","","secret");
+ k48e5h-codex/implement-registration-and-login-features
         u.setStatus("ACTIVE");
+
+ main
         userService.register(u);
 
         assertThat(userService.verifyCredentials("test@example.com","secret")).isTrue();
     }
+ k48e5h-codex/implement-registration-and-login-features
 
     @Test
     void updateProfile() throws Exception {
@@ -35,4 +39,6 @@ public class UserServiceTests {
         userService.update(u);
         assertThat(userService.findById(id).get().getName()).isEqualTo("Updated");
     }
+
+ main
 }

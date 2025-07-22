@@ -30,5 +30,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
 ## Database
 
 Sample data can be loaded using the SQL script in `backend/src/main/resources/schema.sql`.
+ k48e5h-codex/implement-registration-and-login-features
 
 User accounts are stored with hashed passwords. Use `/users/register` to create a new account and `/users/{id}` with PUT to edit profile data.
+main
