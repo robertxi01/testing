@@ -13,7 +13,10 @@ public class UserRepository {
     private final DataSource dataSource;
 
     private static final String INSERT =
-        "INSERT INTO users (name, email, phone, password) VALUES (?, ?, ?, ?)";
+        "INSERT INTO users (name, email, phone, password, promo, status) VALUES (?, ?, ?, ?, ?, ?)";
+
+    private static final String UPDATE =
+        "UPDATE users SET name=?, phone=?, password=?, promo=?, status=? WHERE id=?";
 
     private static final String SELECT_BY_EMAIL =
         "SELECT * FROM users WHERE email = ?";
@@ -38,6 +41,8 @@ public class UserRepository {
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPhone());
             ps.setString(4, user.getPassword());
+            ps.setBoolean(5, user.isPromo());
+            ps.setString(6, user.getStatus());
             ps.executeUpdate();
 
            try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -84,6 +89,24 @@ public class UserRepository {
     }
 
     /**
+     * Update an existing user.
+     * @param user the user with updated fields
+     * @throws SQLException on error
+     */
+    public void update(User user) throws SQLException {
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(UPDATE)) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getPhone());
+            ps.setString(3, user.getPassword());
+            ps.setBoolean(4, user.isPromo());
+            ps.setString(5, user.getStatus());
+            ps.setLong(6, user.getId());
+            ps.executeUpdate();
+        }
+    }
+
+    /**
      * Map a ResultSet row to a User object.
      * @param rs the ResultSet containing user data
      * @return a User object populated with data from the ResultSet
@@ -96,6 +119,8 @@ public class UserRepository {
         u.setEmail(rs.getString("email"));
         u.setPhone(rs.getString("phone"));
         u.setPassword(rs.getString("password"));
+        u.setPromo(rs.getBoolean("promo"));
+        u.setStatus(rs.getString("status"));
         return u;
     }
 }
